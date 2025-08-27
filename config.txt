@@ -1,0 +1,14 @@
+-- Configuração do GIT
+
+
+
+
+-- Criar o gitignore
+
+dotnet new gitignore
+
+
+
+-- Criar o projeto MVC
+
+dotnet new mvc -o Pokedex
