@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Pokedex.Data;
 using Pokedex.Models;
-using Microsoft.EntityFrameworkCore;
 using Pokedex.ViewModels;
 
 namespace Pokedex.Controllers;
@@ -12,7 +12,8 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly AppDbContext _db;
 
-    public HomeController(ILogger<HomeController> logger, AppDbContext db)
+    public HomeController(ILogger<HomeController> logger,
+        AppDbContext db)
     {
         _logger = logger;
         _db = db;
@@ -20,18 +21,20 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var pokemons = _db.Pokemons
-            .Include(p => p.Regiao)
-            .Include(p => p.Genero)
-            .Include(p => p.Tipos)
-            .ThenInclude(t => t.Tipo)
-            .ToList();
-        return View(pokemons);
+        HomeVM home = new()
+        {
+            Pokemons = _db.Pokemons
+                .Include(p => p.Tipos)
+                .ThenInclude(t => t.Tipo)
+                .ToList(),
+            Tipos = _db.Tipos.ToList()
+        };
+        return View(home);
     }
 
     public IActionResult Details(int id)
     {
-        var pokemon = _db.Pokemons
+        Pokemon pokemon = _db.Pokemons
             .Where(p => p.Numero == id)
             .Include(p => p.Regiao)
             .Include(p => p.Genero)
@@ -46,11 +49,11 @@ public class HomeController : Controller
                 .OrderByDescending(p => p.Numero)
                 .FirstOrDefault(p => p.Numero < id),
             Proximo = _db.Pokemons
-                .OrderBy(p => p)
-                .FirstOrDefault(p => p.Numero > id),
+                .OrderBy(p => p.Numero)
+                .FirstOrDefault(p => p.Numero > id)
         };
 
-        return View(pokemon);
+        return View(detail);
     }
 
     public IActionResult Privacy()
