@@ -19,3 +19,10 @@ cd Pokedex
 
 dotnet add package Microsoft.EntityFrameworkCore --version 9.0.8
 dotnet add package Pomelo.EntityFrameworkCore.MySql --version 9.0.0
+
+dotnet aspnet-codegenerator
+dotnet aspnet-codegenerator controller -name RegioesController --model Regiao --dataContext AppDbContext --layout "~/Views/Shared/_LayoutAdmin.cshtml" -outDir Controllers
+
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 9.0.0
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.8
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 9.0.8
