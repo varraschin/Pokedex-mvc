@@ -1,7 +1,7 @@
 -- Configuração do GIT
 
-git config --global user.name
-git config --global user.email
+git config --global user.name TiagoHenriquee07
+git config --global user.email th05112007@gmail.com
 
 
 
